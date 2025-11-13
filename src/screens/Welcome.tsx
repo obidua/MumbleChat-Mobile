@@ -1,5 +1,7 @@
+import { useNavigation } from "@react-navigation/native";
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   ActivityIndicator,
   Alert,
@@ -8,15 +10,26 @@ import {
   Text,
   View,
 } from "react-native";
+import type { RootStackParamList } from "../../App";
 import { useXmtpStore } from "../store/xmtp";
 import { useWallet } from "../wallet/WalletContext";
 import { createSignerFromProvider, initXmtpClient } from "../xmtp/client";
 
+type NavigationProp = NativeStackNavigationProp<RootStackParamList, "Welcome">;
+
 export default function Welcome() {
+  const navigation = useNavigation<NavigationProp>();
   const { provider, account, connect, isConnected } = useWallet();
   const { client, isInitializing, setClient, setIsInitializing } =
     useXmtpStore();
   const [isConnecting, setIsConnecting] = useState(false);
+
+  // Navigate to conversations when XMTP is ready
+  useEffect(() => {
+    if (client) {
+      navigation.replace("Conversations");
+    }
+  }, [client, navigation]);
 
   const handleConnect = async () => {
     try {
@@ -44,7 +57,7 @@ export default function Welcome() {
       const signer = createSignerFromProvider(provider, account);
       const xmtpClient = await initXmtpClient(signer, "production");
       setClient(xmtpClient);
-      Alert.alert("Success", "XMTP client initialized!");
+      // Navigation handled by useEffect
     } catch (error) {
       console.error("XMTP initialization failed:", error);
       Alert.alert(
