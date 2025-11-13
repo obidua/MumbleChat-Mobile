@@ -14,9 +14,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.mumblechat.app"
@@ -43,6 +41,9 @@
           }
         }
       ]
-    ]
+    ],
+    "extra": {
+      "walletConnectProjectId": "YOUR_PROJECT_ID_HERE"
+    }
   }
 }

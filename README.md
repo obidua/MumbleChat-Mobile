@@ -1,32 +1,101 @@
 # MumbleChat Mobile
 
-React Native (Expo) app for MumbleChat leveraging XMTP.
+React Native (Expo) app for MumbleChat leveraging XMTP for private messaging.
 
-## Status
-- Scaffolded with Expo config, TS, navigation, and a Welcome screen.
-- XMTP + WalletConnect wiring is stubbed.
+## Features
 
-## Requirements
-- Node 18+ (Expo SDK 52 works well with Node 18/20)
+- ✅ WalletConnect integration for mobile wallet auth
+- ✅ XMTP client initialization with @xmtp/browser-sdk
+- ✅ React Native polyfills for crypto operations
+- ✅ Welcome screen with wallet connection flow
+- 🚧 Conversations list and thread views (coming next)
+
+## Setup
+
+### Prerequisites
+
+- Node 18+ (Expo SDK 52 works with Node 18/20/22)
 - Yarn or npm
 - Xcode (for iOS), Android Studio (for Android)
 
-## Run (optional)
+### Configuration
+
+1. **WalletConnect Project ID**
+   - Get your project ID from https://cloud.walletconnect.com/
+   - Update `app.json`:
+     ```json
+     "extra": {
+       "walletConnectProjectId": "YOUR_PROJECT_ID_HERE"
+     }
+     ```
+
+2. **Install dependencies**
+   ```sh
+   yarn install
+   # or
+   npm install
+   ```
+
+3. **Start development**
+   ```sh
+   yarn start
+   ```
+
+4. **Run on device/simulator**
+   ```sh
+   # Android
+   yarn android
+
+   # iOS (macOS only)
+   yarn ios
+   ```
+
+## Architecture
+
+- **WalletConnect**: Mobile wallet authentication via QR/deep links
+- **XMTP SDK**: `@xmtp/browser-sdk` with RN polyfills (react-native-get-random-values, expo-crypto)
+- **State**: Zustand for XMTP client and conversations
+- **Navigation**: React Navigation (native stack)
+- **UI**: React Native components styled to match web app
+
+## Build APK/IPA
+
+### Development build (local)
+
 ```sh
-# install deps
-# yarn install
+# Android
+npx expo run:android --variant release
 
-# start dev server
-# yarn start
-
-# run on Android
-# yarn android
-
-# run on iOS (macOS)
-# yarn ios
+# iOS (requires Apple Developer account)
+npx expo run:ios --configuration Release
 ```
 
-## Next
-- Add WalletConnect integration to obtain a signer
-- Initialize XMTP Client with @xmtp/browser-sdk
-- Build conversations list and thread views
+### Production build (EAS)
+
+```sh
+# Install EAS CLI
+npm install -g eas-cli
+
+# Configure and build
+eas build --platform android
+eas build --platform ios
+```
+
+## Next Steps
+
+- [ ] Conversations list screen
+- [ ] Thread/chat view with real-time messages
+- [ ] New DM and Group creation flows
+- [ ] Profile/identity management
+- [ ] Push notifications
+- [ ] Message reactions, replies, attachments
+
+## Tech Stack
+
+- Expo 52
+- React Native 0.76
+- TypeScript 5.6
+- @xmtp/browser-sdk 5.0
+- WalletConnect v2
+- Zustand (state)
+- React Navigation 7
