@@ -1,7 +1,13 @@
-import React, { createContext, useContext, useState, useCallback, type ReactNode } from "react";
-import { WalletConnectModal } from "@walletconnect/modal-react-native";
 import { EthereumProvider } from "@walletconnect/ethereum-provider";
+import { WalletConnectModal } from "@walletconnect/modal-react-native";
 import Constants from "expo-constants";
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useState,
+  type ReactNode,
+} from "react";
 
 interface WalletContextValue {
   provider: EthereumProvider | null;
@@ -14,7 +20,10 @@ interface WalletContextValue {
 
 const WalletContext = createContext<WalletContextValue | undefined>(undefined);
 
-const projectId = Constants.expoConfig?.extra?.walletConnectProjectId || "";
+// Use the same Reown project ID as the web app
+const projectId =
+  Constants.expoConfig?.extra?.walletConnectProjectId ||
+  "93299966b4d38b4e38b8d020ec4347c1";
 
 export function WalletProvider({ children }: { children: ReactNode }) {
   const [provider, setProvider] = useState<EthereumProvider | null>(null);
@@ -27,8 +36,28 @@ export function WalletProvider({ children }: { children: ReactNode }) {
       const wcProvider = await EthereumProvider.init({
         projectId,
         showQrModal: false,
-        chains: [1], // Ethereum mainnet
-        optionalChains: [10, 8453, 84532, 137], // Optimism, Base, Base Sepolia, Polygon
+        // Match the web app's chain configuration - prioritize most used chains
+        chains: [1295], // Ramestta primary chain
+        optionalChains: [
+          137, // Polygon
+          8453, // Base
+          42161, // Arbitrum
+          10, // Optimism
+          11155111, // Sepolia testnet
+          // Secondary chains
+          84532, // Base Sepolia
+          80002, // Polygon Amoy
+          421614, // Arbitrum Sepolia
+          11155420, // Optimism Sepolia
+          59144, // Linea
+          59141, // Linea Sepolia
+          480, // Worldchain
+          4801, // Worldchain Sepolia
+          324, // zkSync
+          300, // zkSync Sepolia
+          7777777, // Lens
+          37111, // Lens Testnet
+        ],
         methods: ["eth_sendTransaction", "personal_sign"],
         events: ["chainChanged", "accountsChanged"],
         metadata: {
@@ -82,8 +111,7 @@ export function WalletProvider({ children }: { children: ReactNode }) {
         isConnected: !!account,
         connect,
         disconnect,
-      }}
-    >
+      }}>
       {children}
       <WalletConnectModal
         projectId={projectId}
@@ -94,7 +122,9 @@ export function WalletProvider({ children }: { children: ReactNode }) {
           icons: ["https://mumblechat.app/icon.png"],
         }}
         isVisible={isModalOpen}
-        onModalClose={() => setIsModalOpen(false)}
+        onModalClose={() => {
+          setIsModalOpen(false);
+        }}
       />
     </WalletContext.Provider>
   );

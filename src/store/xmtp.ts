@@ -1,6 +1,6 @@
+import type { Conversation } from "@xmtp/browser-sdk";
 import { create } from "zustand";
 import type { XmtpClient } from "../xmtp/client";
-import type { Conversation } from "@xmtp/browser-sdk";
 
 interface XmtpState {
   client: XmtpClient | null;
@@ -16,13 +16,20 @@ export const useXmtpStore = create<XmtpState>((set) => ({
   client: null,
   isInitializing: false,
   conversations: [],
-  setClient: (client) => set({ client }),
-  setIsInitializing: (isInitializing) => set({ isInitializing }),
-  setConversations: (conversations) => set({ conversations }),
-  reset: () =>
+  setClient: (client) => {
+    set({ client });
+  },
+  setIsInitializing: (isInitializing) => {
+    set({ isInitializing });
+  },
+  setConversations: (conversations) => {
+    set({ conversations });
+  },
+  reset: () => {
     set({
       client: null,
       isInitializing: false,
       conversations: [],
-    }),
+    });
+  },
 }));

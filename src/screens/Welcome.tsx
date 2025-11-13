@@ -1,13 +1,21 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
-import { Pressable, StyleSheet, Text, View, ActivityIndicator, Alert } from "react-native";
-import { useWallet } from "../wallet/WalletContext";
+import {
+  ActivityIndicator,
+  Alert,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { useXmtpStore } from "../store/xmtp";
+import { useWallet } from "../wallet/WalletContext";
 import { createSignerFromProvider, initXmtpClient } from "../xmtp/client";
 
 export default function Welcome() {
   const { provider, account, connect, isConnected } = useWallet();
-  const { client, isInitializing, setClient, setIsInitializing } = useXmtpStore();
+  const { client, isInitializing, setClient, setIsInitializing } =
+    useXmtpStore();
   const [isConnecting, setIsConnecting] = useState(false);
 
   const handleConnect = async () => {
@@ -16,7 +24,10 @@ export default function Welcome() {
       await connect();
     } catch (error) {
       console.error("Wallet connection failed:", error);
-      Alert.alert("Connection Failed", "Could not connect to wallet. Please try again.");
+      Alert.alert(
+        "Connection Failed",
+        "Could not connect to wallet. Please try again.",
+      );
     } finally {
       setIsConnecting(false);
     }
@@ -36,7 +47,10 @@ export default function Welcome() {
       Alert.alert("Success", "XMTP client initialized!");
     } catch (error) {
       console.error("XMTP initialization failed:", error);
-      Alert.alert("Initialization Failed", "Could not initialize XMTP. Please try again.");
+      Alert.alert(
+        "Initialization Failed",
+        "Could not initialize XMTP. Please try again.",
+      );
     } finally {
       setIsInitializing(false);
     }

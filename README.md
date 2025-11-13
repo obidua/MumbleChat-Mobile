@@ -20,35 +20,38 @@ React Native (Expo) app for MumbleChat leveraging XMTP for private messaging.
 
 ### Configuration
 
-1. **WalletConnect Project ID**
-   - Get your project ID from https://cloud.walletconnect.com/
-   - Update `app.json`:
-     ```json
-     "extra": {
-       "walletConnectProjectId": "YOUR_PROJECT_ID_HERE"
-     }
-     ```
+**WalletConnect Project ID is pre-configured!**
 
-2. **Install dependencies**
-   ```sh
-   yarn install
-   # or
-   npm install
-   ```
+The app uses the same Reown (WalletConnect) project ID as the web app:
 
-3. **Start development**
-   ```sh
-   yarn start
-   ```
+- Project ID: `93299966b4d38b4e38b8d020ec4347c1`
+- Already set in `app.json`
 
-4. **Run on device/simulator**
-   ```sh
-   # Android
-   yarn android
+No additional configuration needed! Just install and run.
 
-   # iOS (macOS only)
-   yarn ios
-   ```
+**Install dependencies**
+
+```sh
+yarn install
+# or
+npm install
+```
+
+**Start development**
+
+```sh
+yarn start
+```
+
+**Run on device/simulator**
+
+```sh
+# Android
+yarn android
+
+# iOS (macOS only)
+yarn ios
+```
 
 ## Architecture
 

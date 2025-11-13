@@ -2,22 +2,12 @@
 
 ## WalletConnect Configuration
 
-Before running the app, you need to configure WalletConnect:
+✅ **Already configured!** The app uses the same Reown project ID as the web app.
 
-1. Visit https://cloud.walletconnect.com/
-2. Create a new project (or use existing)
-3. Copy your Project ID
-4. Open `app.json` and replace `YOUR_PROJECT_ID_HERE` with your actual project ID:
+- Project ID: `93299966b4d38b4e38b8d020ec4347c1`
+- Pre-configured in `app.json`
 
-```json
-{
-  "expo": {
-    "extra": {
-      "walletConnectProjectId": "paste-your-project-id-here"
-    }
-  }
-}
-```
+No setup needed - you can skip to installation below!
 
 ## Installation
 
@@ -76,11 +66,13 @@ eas build --platform android --profile production
 ## Troubleshooting
 
 ### Metro bundler issues
+
 ```bash
 yarn start --clear
 ```
 
 ### iOS build errors
+
 ```bash
 cd ios
 pod deintegrate
@@ -89,6 +81,7 @@ cd ..
 ```
 
 ### Android build errors
+
 ```bash
 cd android
 ./gradlew clean
@@ -98,6 +91,7 @@ cd ..
 ## Next Steps
 
 After setup:
+
 1. Connect a wallet (MetaMask, Coinbase Wallet, etc.)
 2. Initialize XMTP client
 3. Start chatting!

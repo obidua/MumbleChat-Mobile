@@ -5,8 +5,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { WalletProvider } from "./src/wallet/WalletContext";
 import Welcome from "./src/screens/Welcome";
+import { WalletProvider } from "./src/wallet/WalletContext";
 
 export type RootStackParamList = {
   Welcome: undefined;
