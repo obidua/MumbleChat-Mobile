@@ -1,20 +1,23 @@
-import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  FlatList,
-  Pressable,
-  StyleSheet,
-  ActivityIndicator,
-  RefreshControl,
-} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import type { Conversation } from "@xmtp/browser-sdk";
+import React, { useEffect, useState } from "react";
+import {
+  ActivityIndicator,
+  FlatList,
+  Pressable,
+  RefreshControl,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import type { RootStackParamList } from "../../App";
 import { useXmtpStore } from "../store/xmtp";
-import type { Conversation } from "@xmtp/browser-sdk";
 
-type NavigationProp = NativeStackNavigationProp<RootStackParamList, "Conversations">;
+type NavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  "Conversations"
+>;
 
 export default function Conversations() {
   const navigation = useNavigation<NavigationProp>();
@@ -49,7 +52,7 @@ export default function Conversations() {
     // Determine if it's a group or DM
     const isGroup = item.version === "GROUP";
     const title = isGroup ? "Group Chat" : "Direct Message";
-    
+
     // Get peer info for DMs
     let subtitle = "";
     if (isGroup) {
@@ -58,18 +61,19 @@ export default function Conversations() {
     } else {
       // For DMs, try to get peer address
       const dmConvo = item as any;
-      const peerAddr = dmConvo.peerAddress || dmConvo.createdByInboxId || "Unknown";
-      subtitle = typeof peerAddr === "string" 
-        ? peerAddr.slice(0, 6) + "..." + peerAddr.slice(-4)
-        : "Direct message";
+      const peerAddr =
+        dmConvo.peerAddress || dmConvo.createdByInboxId || "Unknown";
+      subtitle =
+        typeof peerAddr === "string"
+          ? peerAddr.slice(0, 6) + "..." + peerAddr.slice(-4)
+          : "Direct message";
     }
 
     return (
       <Pressable
         style={styles.conversationItem}
         onPress={() => {
-          // TODO: Navigate to thread
-          console.log("Open conversation:", item.id);
+          navigation.navigate("Thread", { conversationId: item.id });
         }}>
         <View style={styles.avatar}>
           <Text style={styles.avatarText}>{isGroup ? "👥" : "👤"}</Text>
@@ -101,8 +105,7 @@ export default function Conversations() {
         <Pressable
           style={styles.newButton}
           onPress={() => {
-            // TODO: Navigate to new conversation
-            console.log("New conversation");
+            navigation.navigate("NewDM");
           }}>
           <Text style={styles.newButtonText}>+</Text>
         </Pressable>
@@ -115,7 +118,11 @@ export default function Conversations() {
           <Text style={styles.emptySubtitle}>
             Start a new chat to begin messaging
           </Text>
-          <Pressable style={styles.startButton} onPress={() => {}}>
+          <Pressable
+            style={styles.startButton}
+            onPress={() => {
+              navigation.navigate("NewDM");
+            }}>
             <Text style={styles.startButtonText}>Start a Conversation</Text>
           </Pressable>
         </View>
